@@ -22,13 +22,17 @@ public class MultipleMessagesSingleEntityTransactionService {
     private static final String TRANSACTION_STARTED = "Transaction for sender started";
     private static final String MESSAGE_TO_SEND = "This is the message # %d";
     private static final String MESSAGE_SENT= "Message sent: ";
-    private static final String SERVICE_STOPPED = "The service stopped as the random number for interruption %d is greater than %s";
+    private static final String SERVICE_STOPPED = "The service stopped as the random number for interruption (%d) is greater than the interruption number set to %s";
     private static final String TRANSACTION_COMMITTED = "Transaction committed for sender! All %d messages have been sent to Service Bus";
     private static final String TRANSACTION_NOT_COMMITTED = "Since not all of the messages have been sent. The sender has not completed the transaction and all the messages will not be sent to service bus";
-    private int interruptionNumber = 8;  
+    
+    private int ceilingForInterruptionNumber = 11;
+    private int interruptionNumber = 8;
     
     @Scheduled(fixedDelay = 10000)
     public void singleTransactionHandler() throws InterruptedException {
+        System.out.println("--------------------");
+        
         var senderClient = senderClientBuilder.buildClient();
     
         int randomNumber = new Random().nextInt(11);
@@ -45,7 +49,7 @@ public class MultipleMessagesSingleEntityTransactionService {
             senderClient.sendMessage(messageToSend, transactionForSender);
             i++;
 
-            int randomNumberForInterruption = new Random().nextInt(11);
+            int randomNumberForInterruption = new Random().nextInt(ceilingForInterruptionNumber);
             if(randomNumberForInterruption > interruptionNumber) {
                 System.out.println(String.format(SERVICE_STOPPED, randomNumberForInterruption, interruptionNumber));
                 interruptionOnPurposeHappened = true;
@@ -54,7 +58,7 @@ public class MultipleMessagesSingleEntityTransactionService {
         }
 
         if(!interruptionOnPurposeHappened) {
-            senderClient.commitTransaction(transactionForSender);    
+            senderClient.commitTransaction(transactionForSender); 
 
             System.out.println(String.format(TRANSACTION_COMMITTED, randomNumber));
         } else {
