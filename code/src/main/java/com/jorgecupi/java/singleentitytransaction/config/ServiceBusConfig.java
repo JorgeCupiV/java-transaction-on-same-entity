@@ -5,7 +5,11 @@ import com.azure.messaging.servicebus.ServiceBusClientBuilder.ServiceBusReceiver
 import com.azure.messaging.servicebus.ServiceBusClientBuilder.ServiceBusSenderClientBuilder;
 
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.scheduling.annotation.EnableScheduling;
 
+@Configuration
+@EnableScheduling
 public class ServiceBusConfig {
   String connectionString = "connectionString";
   String topic = "topic";
