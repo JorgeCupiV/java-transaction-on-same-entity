@@ -24,7 +24,7 @@ public void singleTransactionHandler() throws InterruptedException {
 }
 ```
 
-The @Scheduled annotation helps us iterate this service every *X* miliseconds detailed at the **fixedDelay** property.
+The @Scheduled annotation helps us iterate this service every *X* milliseconds detailed at the **fixedDelay** property.
 
 ```java
 var transactionForSender = senderClient.createTransaction();
