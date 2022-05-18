@@ -66,7 +66,7 @@ This are the lines that **might** cause a wanted interruption at the sample to d
 
 Below you can see a screenshot of the sample working:
 
-![Image: An image depicting the sample running on Console](assets/ServiceBusTransactions.png)
+![Image: An image depicting the sample running on Console](/assets/images/ServiceBusTransactions.png)
 
 As the image can tell, there were four runs of the service:
 
